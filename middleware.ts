@@ -1,17 +1,14 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-// import type { Database } from './lib/database.types' // Assuming you have generated types
+import type { Database } from '@/lib/supabase/server'
 
 export async function middleware(req: NextRequest) {
   // We need to create a response and hand it to the supabase client to be able to modify the response headers.
   const res = NextResponse.next()
 
   // Create a Supabase client configured to use cookies
-  const supabase = createMiddlewareClient({ req, res }/*, {
-    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  }*/) // Pass Database type if available
+  const supabase = createMiddlewareClient<Database>({ req, res })
 
   // Refresh session if expired - required for Server Components
   // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-session-with-middleware
