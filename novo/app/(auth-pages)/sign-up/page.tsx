@@ -57,7 +57,6 @@ export default async function Signup(props: {
             </div>
 
             <SubmitButton
-              formAction={signUpAction}
               pendingText="Signing up..."
               className="w-full bg-black text-white hover:bg-gray-800 mt-2"
             >

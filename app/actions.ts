@@ -18,10 +18,10 @@ export async function signInAction(formData: FormData) {
   })
 
   if (error) {
-    return { error: error.message }
+    throw new Error(error.message)
   }
 
-  return redirect('/dashboard')
+  redirect('/dashboard')
 }
 
 // Sign in with Google
@@ -38,11 +38,13 @@ export async function signInWithGoogleAction() {
   })
 
   if (error) {
-    return { error: error.message }
+    throw new Error(error.message)
   }
 
-  // Return the URL provided by Supabase for the OAuth flow
-  return { url: data.url }
+  // Redirect to the URL provided by Supabase for OAuth
+  if (data.url) {
+    redirect(data.url)
+  }
 }
 
 // Sign up with email and password
@@ -62,10 +64,10 @@ export async function signUpAction(formData: FormData) {
   })
 
   if (error) {
-    return { error: error.message }
+    throw new Error(error.message)
   }
 
-  return { success: 'Check your email to confirm your account' }
+  redirect('/success?message=Check your email to confirm your account')
 }
 
 // Sign out
@@ -75,7 +77,7 @@ export async function signOutAction() {
   
   await supabase.auth.signOut()
   
-  return redirect('/login')
+  redirect('/login')
 }
 
 // Forgot password
@@ -90,10 +92,10 @@ export async function forgotPasswordAction(formData: FormData) {
   })
 
   if (error) {
-    return { error: error.message }
+    throw new Error(error.message)
   }
 
-  return { success: 'Check your email for the password reset link' }
+  redirect('/success?message=Check your email for the password reset link')
 }
 
 // Reset password
@@ -108,8 +110,8 @@ export async function resetPasswordAction(formData: FormData) {
   })
 
   if (error) {
-    return { error: error.message }
+    throw new Error(error.message)
   }
 
-  return redirect('/login')
+  redirect('/login?message=Your password has been reset successfully')
 } 
