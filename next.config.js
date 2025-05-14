@@ -1,12 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Enable Edge Runtime for middleware
+  // Experimental features - using only supported options
   experimental: {
-    middleware: {
-      // Mark middleware as part of Edge Runtime
-      runtime: 'edge',
-    },
+    // Any valid experimental options can go here
   },
 };
 
