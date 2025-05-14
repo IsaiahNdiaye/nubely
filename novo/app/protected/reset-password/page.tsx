@@ -11,11 +11,14 @@ export default function ResetPassword() {
   const [message, setMessage] = useState<Message | null>(null);
 
   async function handleSubmit(formData: FormData) {
-    const result = await resetPasswordAction(formData);
-    if ('error' in result) {
-      setMessage({ type: 'error', text: result.error });
-    } else if ('success' in result) {
-      setMessage({ type: 'success', text: result.success });
+    try {
+      // resetPasswordAction will redirect on success
+      await resetPasswordAction(formData);
+    } catch (error) {
+      setMessage({ 
+        type: 'error', 
+        text: error instanceof Error ? error.message : 'An error occurred' 
+      });
     }
   }
 
